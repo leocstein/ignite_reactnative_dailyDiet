@@ -7,3 +7,5 @@ export const Container = styled(SafeAreaView)`
 
   padding: 24px;
 `;
+
+export const Text = styled.Text``;
