@@ -1,6 +1,12 @@
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import styled, { css } from "styled-components/native";
 import { Plus } from "phosphor-react-native";
+
+export type StatusTypeStyleProps = true | false;
+
+type Props = {
+  type: StatusTypeStyleProps;
+};
 
 export const Container = styled.View`
   flex: 1;
@@ -51,7 +57,7 @@ export const Date = styled.Text`
   margin-top: 8px;
 `;
 
-export const Meal = styled.View`
+export const Meal = styled(TouchableOpacity)`
   flex-direction: row;
   height: 49px;
   border: 1px solid ${({ theme }) => theme.COLORS.GRAY_5};
@@ -91,10 +97,9 @@ export const Separator = styled.Text`
   margin-right: 12px;
 `;
 
-export const Status = styled.View`
-  ${({ theme }) => css`
-    background-color: ${theme.COLORS.GREEN_LIGHT};
-  `}
+export const Status = styled(View)<Props>`
+  background-color: ${({ theme, type }) =>
+    type === true ? theme.COLORS.GREEN_MID : theme.COLORS.RED_MID};
   width: 14px;
   height: 14px;
   border-radius: 100px;

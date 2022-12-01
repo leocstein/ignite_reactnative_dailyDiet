@@ -1,0 +1,60 @@
+[
+  {
+    "date": "12.08.22",
+    "meals": [
+      {
+        "name": "X-tudo",
+        "description": "Sanduiche com todos os opcionais",
+        "hour": "20:00",
+        "insideTheDiet": false
+      },
+      {
+        "name": "Whey protein com leite",
+        "description": "Whey isolado batido com 200ml de leite",
+        "hour": "16:00",
+        "insideTheDiet": true
+      },
+      {
+        "name": "Salada cesar com frango",
+        "description": "Salada cesar com frango grelhado",
+        "hour": "12:30",
+        "insideTheDiet": true
+      },
+      {
+        "name": "Vitamina de banana",
+        "description": "Vitamina de banana com maçã",
+        "hour": "09:30",
+        "insideTheDiet": true
+      }
+    ]
+  },
+  {
+    "date": "11.08.22",
+    "meals": [
+      {
+        "name": "X-tudo",
+        "description": "Sanduiche com todos os opcionais",
+        "hour": "20:00",
+        "insideTheDiet": false
+      },
+      {
+        "name": "Whey protein com leite",
+        "description": "Whey isolado batido com 200ml de leite",
+        "hour": "16:00",
+        "insideTheDiet": true
+      },
+      {
+        "name": "Salada cesar com frango",
+        "description": "Salada cesar com frango grelhado",
+        "hour": "12:30",
+        "insideTheDiet": true
+      },
+      {
+        "name": "Vitamina de banana",
+        "description": "Vitamina de banana com maçã",
+        "hour": "09:30",
+        "insideTheDiet": true
+      }
+    ]
+  }
+]

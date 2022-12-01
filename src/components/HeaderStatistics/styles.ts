@@ -1,9 +1,13 @@
 import styled, { css } from "styled-components/native";
 import { ArrowLeft } from "phosphor-react-native";
+import { TouchableOpacity } from "react-native";
 
 export const Container = styled.View`
   background-color: ${({ theme }) => theme.COLORS.GREEN_LIGHT};
+  padding: 24px;
 `;
+
+export const Button = styled(TouchableOpacity)``;
 
 export const Icon = styled(ArrowLeft).attrs(({ theme }) => ({
   size: 24,
@@ -28,5 +32,5 @@ export const Text = styled.Text`
   `}
   text-align: center;
   margin-top: 2px;
-  margin-bottom: 20px;
+  margin-bottom: 32px;
 `;
