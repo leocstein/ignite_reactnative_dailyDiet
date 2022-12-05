@@ -3,7 +3,7 @@ import { ButtonYesOrNot } from "@components/ButtonYesOrNot";
 import { HeaderNewInput } from "@components/HeaderNewMeal";
 import { TitleInputNewMeal } from "@components/TitleInputNewMeal";
 import theme from "@theme/index";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Container,
   InputContainer,
@@ -15,19 +15,80 @@ import {
   InputDescription,
   ButtonContainer,
 } from "./styles";
+import { useNavigation } from "@react-navigation/native";
+import { dateCreate } from "@storage/date/dateCreate";
+import { Alert, TextInput } from "react-native";
+import { MealAddByDate } from "@storage/meal/mealAddByDate";
+import { AppError } from "@utils/AppError";
+import { MealStorageDTO } from "@storage/meal/MealStorageDTO";
+
+type MealProps = {
+  name: string;
+  description: string;
+  date: string;
+  hour: string;
+  isFit?: boolean;
+};
 
 export function NewMeal() {
+  const [name, setName] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [date, setDate] = useState<string>("");
+  const [hour, setHour] = useState<string>("");
+
   const [yesPressed, setYesPressed] = useState<boolean>();
   const [noPressed, setNoPressed] = useState<boolean>();
+  const [isFit, setIsFit] = useState<boolean>();
+
+  const [meal, setMeal] = useState<MealProps>();
+
+  const navigation = useNavigation();
+
+  const newMealInputRef = useRef<TextInput>(null);
 
   function handleYesButton() {
     setYesPressed(true);
     setNoPressed(false);
+    setIsFit(true);
   }
 
   function handleNoButton() {
     setNoPressed(true);
     setYesPressed(false);
+    setIsFit(false);
+  }
+
+  async function handleRegister() {
+    if (name.trim().length === 0) {
+      return Alert.alert("Nova refeição", "Informe o nome da refeição.");
+    }
+
+    await dateCreate(date);
+
+    const newMeal: MealStorageDTO = {
+      name: name,
+      description: description,
+      date: date,
+      hour: hour,
+      isFit: isFit,
+    };
+
+    try {
+      await MealAddByDate(newMeal, date);
+      newMealInputRef.current?.blur();
+      setName("");
+      setDescription("");
+      setDate("");
+      setHour("");
+      navigation.navigate("newMealFeedback", newMeal);
+    } catch (error) {
+      if (error instanceof AppError) {
+        Alert.alert("Nova refeição", error.message);
+      } else {
+        console.log(error);
+        Alert.alert("Nova refeição", "Não foi possível adicionar");
+      }
+    }
   }
 
   return (
@@ -35,10 +96,16 @@ export function NewMeal() {
       <HeaderNewInput />
       <InputContainer>
         <TitleInputNewMeal title="Nome" />
-        <InputName cursorColor={theme.COLORS.GRAY_2} />
+        <InputName
+          value={name}
+          onChangeText={setName}
+          cursorColor={theme.COLORS.GRAY_2}
+        />
 
         <TitleInputNewMeal title="Descrição" />
         <InputDescription
+          value={description}
+          onChangeText={setDescription}
           cursorColor={theme.COLORS.GRAY_2}
           multiline={true}
           textAlignVertical="top"
@@ -48,6 +115,8 @@ export function NewMeal() {
           <InputDateContainer>
             <TitleInputNewMeal title="Data" />
             <MiniInput
+              value={date}
+              onChangeText={setDate}
               cursorColor={theme.COLORS.GRAY_2}
               placeholder="XX/XX/XXXX"
             />
@@ -55,7 +124,12 @@ export function NewMeal() {
 
           <InputHourContainer>
             <TitleInputNewMeal title="Hora" />
-            <MiniInput cursorColor={theme.COLORS.GRAY_2} placeholder="XX:XX" />
+            <MiniInput
+              value={hour}
+              onChangeText={setHour}
+              cursorColor={theme.COLORS.GRAY_2}
+              placeholder="XX:XX"
+            />
           </InputHourContainer>
         </InputDateAndHourContainer>
 
@@ -80,7 +154,11 @@ export function NewMeal() {
           />
         </ButtonContainer>
 
-        <ButtonRegisterMeal />
+        <ButtonRegisterMeal
+          onPress={() => {
+            handleRegister();
+          }}
+        />
       </InputContainer>
     </Container>
   );

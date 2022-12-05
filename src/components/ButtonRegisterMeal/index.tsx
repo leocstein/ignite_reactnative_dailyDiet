@@ -1,9 +1,11 @@
+import { TouchableOpacityProps } from "react-native";
 import { Container, Text } from "./styles";
-import React from "react";
 
-export function ButtonRegisterMeal() {
+type Props = TouchableOpacityProps & {};
+
+export function ButtonRegisterMeal({ ...rest }: Props) {
   return (
-    <Container>
+    <Container {...rest}>
       <Text>Cadastrar refeição</Text>
     </Container>
   );

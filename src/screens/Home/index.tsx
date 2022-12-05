@@ -4,6 +4,9 @@ import { Header } from "@components/Header";
 import { PercentCard } from "@components/PercentCard";
 import { Meals } from "@components/Meals";
 import arrayMealsJson from "@storage/meals.json";
+import { dateGetAll } from "@storage/date/dateGetAll";
+import { MealGetByDate } from "@storage/meal/mealGetByDate";
+import { MealGetAll } from "@storage/meal/mealGetAll";
 
 export type MealProps = {
   date: string;
@@ -22,6 +25,9 @@ export function Home() {
 
   useEffect(() => {
     setMeals(arrayMealsJson);
+    //dateGetAll();
+    //MealGetByDate("04/12/2022");
+    MealGetAll();
   }, [meals]);
 
   return (
