@@ -18,9 +18,9 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { dateCreate } from "@storage/date/dateCreate";
 import { Alert, TextInput } from "react-native";
-import { MealAddByDate } from "@storage/meal/mealAddByDate";
 import { AppError } from "@utils/AppError";
 import { MealStorageDTO } from "@storage/meal/MealStorageDTO";
+import { MealAdd } from "@storage/meal/mealAdd";
 
 type MealProps = {
   name: string;
@@ -74,12 +74,9 @@ export function NewMeal() {
     };
 
     try {
-      await MealAddByDate(newMeal, date);
+      await MealAdd(newMeal);
       newMealInputRef.current?.blur();
-      setName("");
-      setDescription("");
-      setDate("");
-      setHour("");
+
       navigation.navigate("newMealFeedback", newMeal);
     } catch (error) {
       if (error instanceof AppError) {

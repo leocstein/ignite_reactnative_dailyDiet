@@ -8,7 +8,7 @@ export async function dateGetAll() {
 
     const dates: string[] = storage ? JSON.parse(storage) : [];
 
-    //console.log("dateGetAll::", dates);
+    console.log("dateGetAll::", dates);
     return dates;
   } catch (error) {
     throw error;
