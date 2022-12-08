@@ -3,34 +3,21 @@ import { Container } from "./styles";
 import { Header } from "@components/Header";
 import { PercentCard } from "@components/PercentCard";
 import { Meals } from "@components/Meals";
-import arrayMealsJson from "@storage/meals.json";
 import { MealGetAll } from "@storage/meal/mealGetAll";
-import { MealGetByDate } from "@storage/meal/mealGetByDate";
 import { MealStorageDTO } from "@storage/meal/MealStorageDTO";
 import { dateGetAll } from "@storage/date/dateGetAll";
-
-export type MealProps = {
-  date: string;
-  meals: [
-    {
-      name: string;
-      description: string;
-      hour: string;
-      insideTheDiet: boolean;
-    }
-  ];
-};
+import { MealDeleteAll } from "@storage/meal/mealDeleteAll";
+import { useIsFocused } from "@react-navigation/native";
 
 export function Home() {
+  const isFocused = useIsFocused();
   const [meals, setMeals] = useState<MealStorageDTO[]>([]);
   const [dates, setDates] = useState<string[]>([]);
-
-  const data: MealProps[] = arrayMealsJson;
 
   async function LoadDates() {
     const allDates = await dateGetAll();
 
-    setDates(allDates); //return allDates;
+    setDates(allDates);
   }
 
   async function LoadMeals() {
@@ -41,13 +28,13 @@ export function Home() {
   useEffect(() => {
     LoadMeals();
     LoadDates();
-  }, []);
+  }, [isFocused]);
 
   return (
     <Container>
       <Header />
       <PercentCard />
-      <Meals data={data} />
+      <Meals meals={meals} dates={dates} />
     </Container>
   );
 }

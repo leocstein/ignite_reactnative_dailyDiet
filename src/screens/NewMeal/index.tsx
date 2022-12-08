@@ -22,15 +22,10 @@ import { AppError } from "@utils/AppError";
 import { MealStorageDTO } from "@storage/meal/MealStorageDTO";
 import { MealAdd } from "@storage/meal/mealAdd";
 
-type MealProps = {
-  name: string;
-  description: string;
-  date: string;
-  hour: string;
-  isFit?: boolean;
-};
+import uuid from "react-native-uuid";
 
 export function NewMeal() {
+  const [id, setId] = useState(uuid.v1().toString());
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [date, setDate] = useState<string>("");
@@ -39,8 +34,6 @@ export function NewMeal() {
   const [yesPressed, setYesPressed] = useState<boolean>();
   const [noPressed, setNoPressed] = useState<boolean>();
   const [isFit, setIsFit] = useState<boolean>();
-
-  const [meal, setMeal] = useState<MealProps>();
 
   const navigation = useNavigation();
 
@@ -66,6 +59,7 @@ export function NewMeal() {
     await dateCreate(date);
 
     const newMeal: MealStorageDTO = {
+      id: id,
       name: name,
       description: description,
       date: date,

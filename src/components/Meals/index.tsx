@@ -1,26 +1,21 @@
 import { ListEmpty } from "@components/ListEmpty";
-import { MealProps } from "@screens/Home";
 import { FlatList } from "react-native";
-import {
-  Container,
-  Button,
-  ButtonText,
-  Title,
-  Icon,
-  Date,
-  Meal,
-  MealText,
-  MealHour,
-  Separator,
-  Status,
-} from "./styles";
+import { Container, Button, ButtonText, Title, Icon, Date } from "./styles";
 import { useNavigation } from "@react-navigation/native";
+import { MealStorageDTO } from "@storage/meal/MealStorageDTO";
+import { Meal } from "@components/Meal";
 type Props = {
-  data: MealProps[];
+  meals: MealStorageDTO[];
+  dates: string[];
 };
 
-export function Meals({ data }: Props) {
+export function Meals({ meals, dates }: Props) {
+  const allMeals = meals.sort((p1, p2) =>
+    p1.hour > p2.hour ? 1 : p1.hour < p2.hour ? -1 : 0
+  );
+  const allDates = dates.sort();
   const navigation = useNavigation();
+
   return (
     <Container>
       <Title>Refeições</Title>
@@ -30,22 +25,15 @@ export function Meals({ data }: Props) {
       </Button>
 
       <FlatList
-        data={data}
-        keyExtractor={(item) => item.date}
+        data={allDates}
+        keyExtractor={(item: string) => item}
         renderItem={({ item }) => (
           <>
-            <Date>{item.date}</Date>
+            <Date>{item}</Date>
 
-            {item.meals.map((meal) => {
-              return (
-                <Meal key={meal.hour}>
-                  <MealHour>{meal.hour}</MealHour>
-                  <Separator>|</Separator>
-                  <MealText>{meal.name}</MealText>
-                  <Status type={meal.insideTheDiet} />
-                </Meal>
-              );
-            })}
+            {allMeals.map((meal) =>
+              meal.date === item ? <Meal key={meal.id} meal={meal} /> : <></>
+            )}
           </>
         )}
         ListEmptyComponent={() => (
@@ -54,7 +42,7 @@ export function Meals({ data }: Props) {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={[
           { paddingBottom: 100 },
-          data.length === 0 && { flex: 1 },
+          allMeals.length === 0 && { flex: 1 },
         ]}
       />
     </Container>
