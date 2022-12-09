@@ -32,7 +32,7 @@ export const Button = styled(TouchableOpacity)`
   border-radius: 6px;
   align-items: center;
   justify-content: center;
-  margin-bottom: 24px;
+  margin-bottom: 10px;
 `;
 
 export const ButtonText = styled.Text`
@@ -54,5 +54,5 @@ export const Date = styled.Text`
     font-size: ${theme.FONT_SIZE.LG}px;
     color: ${theme.COLORS.GRAY_1};
   `}
-  margin-top: 8px;
+  margin-top: 30px;
 `;

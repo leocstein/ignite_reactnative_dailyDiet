@@ -13,7 +13,7 @@ export function Meals({ meals, dates }: Props) {
   const allMeals = meals.sort((p1, p2) =>
     p1.hour > p2.hour ? 1 : p1.hour < p2.hour ? -1 : 0
   );
-  const allDates = dates.sort();
+  const allDates = dates.sort().reverse();
   const navigation = useNavigation();
 
   return (

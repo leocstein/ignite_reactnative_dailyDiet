@@ -7,6 +7,7 @@ export declare global {
       newMealFeedback: {
         isFit?: boolean;
       };
+      mealScreen: undefined;
     }
   }
 }

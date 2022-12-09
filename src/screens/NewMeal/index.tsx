@@ -1,6 +1,6 @@
 import { ButtonRegisterMeal } from "@components/ButtonRegisterMeal";
 import { ButtonYesOrNot } from "@components/ButtonYesOrNot";
-import { HeaderNewInput } from "@components/HeaderNewMeal";
+import { HeaderWithBackIcon } from "@components/HeaderWithBackIcon";
 import { TitleInputNewMeal } from "@components/TitleInputNewMeal";
 import theme from "@theme/index";
 import { useRef, useState } from "react";
@@ -84,7 +84,7 @@ export function NewMeal() {
 
   return (
     <Container>
-      <HeaderNewInput />
+      <HeaderWithBackIcon title="Nova refeição" />
       <InputContainer>
         <TitleInputNewMeal title="Nome" />
         <InputName

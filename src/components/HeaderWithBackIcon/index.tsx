@@ -4,17 +4,30 @@ import { StatusBar, TouchableOpacity } from "react-native";
 import theme from "@theme/index";
 import { useNavigation } from "@react-navigation/native";
 
-export function HeaderNewInput() {
+type Props = {
+  title: string;
+  isFit?: boolean;
+};
+
+export function HeaderWithBackIcon({ title, isFit }: Props) {
   const navigation = useNavigation();
   return (
-    <Container>
-      <StatusBar backgroundColor={theme.COLORS.GRAY_5} />
+    <Container backGroundColor={isFit}>
+      <StatusBar
+        backgroundColor={
+          isFit
+            ? theme.COLORS.GREEN_LIGHT
+            : isFit === false
+            ? theme.COLORS.RED_LIGHT
+            : theme.COLORS.GRAY_5
+        }
+      />
 
       <TouchableOpacity onPress={() => navigation.navigate("home")}>
         <Icon />
       </TouchableOpacity>
 
-      <Title>Nova Refeição</Title>
+      <Title>{title}</Title>
     </Container>
   );
 }

@@ -2,10 +2,19 @@ import { TextInput } from "react-native";
 import styled, { css } from "styled-components/native";
 import { ArrowLeft } from "phosphor-react-native";
 
-export const Container = styled.View`
+type HeaderWithBackIconStyleProps = {
+  backGroundColor?: boolean;
+};
+
+export const Container = styled.View<HeaderWithBackIconStyleProps>`
   flex-direction: row;
-  height: 132px;
-  background-color: ${({ theme }) => theme.COLORS.GRAY_5};
+  height: 110px;
+  background-color: ${({ theme, backGroundColor }) =>
+    backGroundColor
+      ? theme.COLORS.GREEN_LIGHT
+      : backGroundColor === false
+      ? theme.COLORS.RED_LIGHT
+      : theme.COLORS.GRAY_5};
   padding: 24px;
 `;
 
