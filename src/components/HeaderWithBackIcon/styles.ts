@@ -3,7 +3,7 @@ import styled, { css } from "styled-components/native";
 import { ArrowLeft } from "phosphor-react-native";
 
 type HeaderWithBackIconStyleProps = {
-  backGroundColor?: boolean;
+  backGroundColor: boolean | undefined;
 };
 
 export const Container = styled.View<HeaderWithBackIconStyleProps>`

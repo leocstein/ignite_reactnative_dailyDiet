@@ -1,9 +1,5 @@
-import { ButtonRegisterMeal } from "@components/ButtonRegisterMeal";
-import { ButtonYesOrNot } from "@components/ButtonYesOrNot";
-import { HeaderWithBackIcon } from "@components/HeaderWithBackIcon";
-import { TitleInputNewMeal } from "@components/TitleInputNewMeal";
-import theme from "@theme/index";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Alert, TextInput } from "react-native";
 import {
   Container,
   InputContainer,
@@ -15,25 +11,37 @@ import {
   InputDescription,
   ButtonContainer,
 } from "./styles";
-import { useNavigation } from "@react-navigation/native";
-import { dateCreate } from "@storage/date/dateCreate";
-import { Alert, TextInput } from "react-native";
-import { AppError } from "@utils/AppError";
-import { MealStorageDTO } from "@storage/meal/MealStorageDTO";
+
+import theme from "@theme/index";
+
+import { ButtonRegisterMeal } from "@components/ButtonRegisterMeal";
+import { ButtonYesOrNot } from "@components/ButtonYesOrNot";
+import { HeaderWithBackIcon } from "@components/HeaderWithBackIcon";
+import { TitleInputNewMeal } from "@components/TitleInputNewMeal";
+
+import { DateCreate } from "@storage/date/dateCreate";
 import { MealAdd } from "@storage/meal/mealAdd";
+import { MealDelete } from "@storage/meal/mealDelete";
+import { MealStorageDTO } from "@storage/meal/MealStorageDTO";
+import { useNavigation, useRoute } from "@react-navigation/native";
+
+import { AppError } from "@utils/AppError";
 
 import uuid from "react-native-uuid";
 
-export function NewMeal() {
-  const [id, setId] = useState(uuid.v1().toString());
-  const [name, setName] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [date, setDate] = useState<string>("");
-  const [hour, setHour] = useState<string>("");
+export function MealForm() {
+  const route = useRoute();
+  const meal = route.params as MealStorageDTO;
 
-  const [yesPressed, setYesPressed] = useState<boolean>();
-  const [noPressed, setNoPressed] = useState<boolean>();
-  const [isFit, setIsFit] = useState<boolean>();
+  const [id, setId] = useState(uuid.v1().toString());
+  const [name, setName] = useState(meal?.name);
+  const [description, setDescription] = useState(meal?.description);
+  const [date, setDate] = useState(meal?.date);
+  const [hour, setHour] = useState(meal?.hour);
+  const [isFit, setIsFit] = useState(meal?.isFit);
+
+  const [yesPressed, setYesPressed] = useState<boolean>(false);
+  const [noPressed, setNoPressed] = useState<boolean>(false);
 
   const navigation = useNavigation();
 
@@ -51,12 +59,12 @@ export function NewMeal() {
     setIsFit(false);
   }
 
-  async function handleRegister() {
+  async function handleRegisterNewMeal() {
     if (name.trim().length === 0) {
       return Alert.alert("Nova refeição", "Informe o nome da refeição.");
     }
 
-    await dateCreate(date);
+    await DateCreate(date);
 
     const newMeal: MealStorageDTO = {
       id: id,
@@ -82,9 +90,52 @@ export function NewMeal() {
     }
   }
 
+  async function handleUpdateMeal(meal: MealStorageDTO) {
+    if (name.trim().length === 0) {
+      return Alert.alert("Nova refeição", "Informe o nome da refeição.");
+    }
+
+    const mealUpdated: MealStorageDTO = {
+      id: uuid.v1().toString(),
+      name: name,
+      description: description,
+      date: date,
+      hour: hour,
+      isFit: isFit,
+    };
+
+    try {
+      await MealDelete(meal);
+      await MealAdd(mealUpdated);
+      newMealInputRef.current?.blur();
+
+      navigation.navigate("newMealFeedback", mealUpdated);
+    } catch (error) {
+      if (error instanceof AppError) {
+        Alert.alert("Nova refeição", error.message);
+      } else {
+        console.log(error);
+        Alert.alert("Nova refeição", "Não foi possível adicionar");
+      }
+    }
+  }
+
+  useEffect(() => {
+    meal && meal.isFit ? (
+      handleYesButton()
+    ) : meal && meal.isFit === false ? (
+      handleNoButton()
+    ) : (
+      <></>
+    );
+  }, []);
+
   return (
     <Container>
-      <HeaderWithBackIcon title="Nova refeição" />
+      <HeaderWithBackIcon
+        title={meal ? "Editar refeição" : "Nova Refeição"}
+        isFit={isFit}
+      />
       <InputContainer>
         <TitleInputNewMeal title="Nome" />
         <InputName
@@ -145,11 +196,21 @@ export function NewMeal() {
           />
         </ButtonContainer>
 
-        <ButtonRegisterMeal
-          onPress={() => {
-            handleRegister();
-          }}
-        />
+        {!meal ? (
+          <ButtonRegisterMeal
+            title="Cadastrar refeição"
+            onPress={() => {
+              handleRegisterNewMeal();
+            }}
+          />
+        ) : (
+          <ButtonRegisterMeal
+            title="Salvar alterações"
+            onPress={() => {
+              handleUpdateMeal(meal);
+            }}
+          />
+        )}
       </InputContainer>
     </Container>
   );

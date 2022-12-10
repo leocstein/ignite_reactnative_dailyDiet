@@ -2,7 +2,7 @@ import { DATE_COLLECTION } from "@storage/storageConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { dateGetAll } from "@storage/date/dateGetAll";
 
-export async function dateRemove(date: string) {
+export async function DateRemove(date: string) {
   try {
     const storage = await dateGetAll();
 

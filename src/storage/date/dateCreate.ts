@@ -4,7 +4,7 @@ import { DATE_COLLECTION } from "@storage/storageConfig";
 import { AppError } from "@utils/AppError";
 import { dateGetAll } from "./dateGetAll";
 
-export async function dateCreate(newDate: string) {
+export async function DateCreate(newDate: string) {
   try {
     const storagedDates = await dateGetAll();
 

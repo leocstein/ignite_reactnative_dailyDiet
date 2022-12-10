@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 
 type Props = {
   title: string;
-  isFit?: boolean;
+  isFit: boolean | undefined;
 };
 
 export function HeaderWithBackIcon({ title, isFit }: Props) {
@@ -23,7 +23,7 @@ export function HeaderWithBackIcon({ title, isFit }: Props) {
         }
       />
 
-      <TouchableOpacity onPress={() => navigation.navigate("home")}>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
         <Icon />
       </TouchableOpacity>
 

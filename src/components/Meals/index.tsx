@@ -19,7 +19,7 @@ export function Meals({ meals, dates }: Props) {
   return (
     <Container>
       <Title>Refeições</Title>
-      <Button onPress={() => navigation.navigate("newMeal")}>
+      <Button onPress={() => navigation.navigate("mealForm")}>
         <Icon />
         <ButtonText>Nova Refeição</ButtonText>
       </Button>

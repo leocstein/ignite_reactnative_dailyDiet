@@ -15,12 +15,23 @@ import {
   StatusText,
   ButtonContainer,
 } from "./styles";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { MealStorageDTO } from "@storage/meal/MealStorageDTO";
+import { MealDelete } from "@storage/meal/mealDelete";
 
 export function MealScreen() {
+  const navigation = useNavigation();
   const route = useRoute();
   const meal = route.params as MealStorageDTO;
+
+  async function handleDeleteMeal(meal: MealStorageDTO) {
+    await MealDelete(meal);
+    navigation.navigate("home");
+  }
+
+  function handleEditMeal() {
+    navigation.navigate("mealForm", meal);
+  }
 
   return (
     <Container>
@@ -39,12 +50,12 @@ export function MealScreen() {
         </StatusContainer>
       </MealInformationContainer>
       <ButtonContainer>
-        <Button type="PRIMARY">
+        <Button type="PRIMARY" onPress={() => handleEditMeal()}>
           <ButtonEditIcon />
           <ButtonText type="PRIMARY">Editar refeição</ButtonText>
         </Button>
 
-        <Button type="SECONDARY">
+        <Button type="SECONDARY" onPress={() => handleDeleteMeal(meal)}>
           <ButtonRemoveIcon />
           <ButtonText type="SECONDARY">Excluir refeição</ButtonText>
         </Button>

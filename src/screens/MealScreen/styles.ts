@@ -10,7 +10,7 @@ type ButtonProps = TouchableOpacityProps & {
 };
 
 type StatusProps = {
-  type: boolean;
+  type: boolean | undefined;
 };
 
 export const Container = styled(SafeAreaView)`
