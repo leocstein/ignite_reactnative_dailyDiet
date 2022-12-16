@@ -1,7 +1,7 @@
 import { Container, Number, Text } from "./styles";
 
 type Props = {
-  number: string;
+  number: number;
   text: string;
 };
 

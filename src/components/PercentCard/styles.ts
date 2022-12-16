@@ -2,15 +2,22 @@ import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 import styled, { css } from "styled-components/native";
 import { ArrowUpRight } from "phosphor-react-native";
 
-export const Container = styled(TouchableOpacity)<TouchableOpacityProps>`
-  background-color: ${({ theme }) => theme.COLORS.GREEN_LIGHT};
+export type PercentCardBackgroundStyleProps = TouchableOpacityProps & {
+  percentage: number;
+};
+
+export const Container = styled(
+  TouchableOpacity
+)<PercentCardBackgroundStyleProps>`
+  background-color: ${({ theme, percentage }) =>
+    percentage >= 50 ? theme.COLORS.GREEN_LIGHT : theme.COLORS.RED_LIGHT};
 
   border-radius: 8px;
 `;
 
 export const Icon = styled(ArrowUpRight).attrs(({ theme }) => ({
   size: 24,
-  color: theme.COLORS.GREEN_DARK,
+  color: theme.COLORS.GRAY_1,
   weight: "fill",
 }))`
   align-self: flex-end;

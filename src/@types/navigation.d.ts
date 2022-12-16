@@ -1,8 +1,13 @@
+import { MealStorageDTO } from "@storage/meal/MealStorageDTO";
+
 export declare global {
   namespace ReactNavigation {
     interface RootParamList {
       home: undefined;
-      statistics: undefined;
+      statistics: {
+        percentage: number;
+        meals: MealStorageDTO[];
+      };
       mealForm: undefined;
       newMealFeedback: {
         isFit?: boolean;

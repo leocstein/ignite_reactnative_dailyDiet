@@ -13,6 +13,8 @@ export function Home() {
   const isFocused = useIsFocused();
   const [meals, setMeals] = useState<MealStorageDTO[]>([]);
   const [dates, setDates] = useState<string[]>([]);
+  const [percentageWithinTheDiet, setPercentageWithinTheDiet] =
+    useState<number>(0);
 
   async function LoadDates() {
     const allDates = await dateGetAll();
@@ -23,6 +25,12 @@ export function Home() {
   async function LoadMeals() {
     const allMeals = await MealGetAll();
     setMeals(allMeals);
+
+    const insideTheDiet: MealStorageDTO[] = [];
+    allMeals.map((meal) => (meal.isFit ? insideTheDiet.push(meal) : <></>));
+    const percentageX = (insideTheDiet.length * 100) / allMeals.length;
+    setPercentageWithinTheDiet(percentageX);
+    console.log("percentageWithinTheDiet::", percentageWithinTheDiet);
   }
 
   useEffect(() => {
@@ -33,7 +41,7 @@ export function Home() {
   return (
     <Container>
       <Header />
-      <PercentCard />
+      <PercentCard percentage={percentageWithinTheDiet} meals={meals} />
       <Meals meals={meals} dates={dates} />
     </Container>
   );

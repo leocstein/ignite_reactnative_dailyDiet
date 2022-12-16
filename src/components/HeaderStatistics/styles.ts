@@ -1,9 +1,11 @@
 import styled, { css } from "styled-components/native";
 import { ArrowLeft } from "phosphor-react-native";
 import { TouchableOpacity } from "react-native";
+import { PercentCardBackgroundStyleProps } from "@components/PercentCard/styles";
 
-export const Container = styled.View`
-  background-color: ${({ theme }) => theme.COLORS.GREEN_LIGHT};
+export const Container = styled.View<PercentCardBackgroundStyleProps>`
+  background-color: ${({ theme, percentage }) =>
+    percentage >= 50 ? theme.COLORS.GREEN_LIGHT : theme.COLORS.RED_LIGHT};
   padding: 24px;
 `;
 
@@ -11,7 +13,7 @@ export const Button = styled(TouchableOpacity)``;
 
 export const Icon = styled(ArrowLeft).attrs(({ theme }) => ({
   size: 24,
-  color: theme.COLORS.GREEN_DARK,
+  color: theme.COLORS.GRAY_1,
   weight: "fill",
 }))``;
 
