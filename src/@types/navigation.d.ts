@@ -8,7 +8,9 @@ export declare global {
         percentage: number;
         meals: MealStorageDTO[];
       };
-      mealForm: undefined;
+      mealForm: {
+        meal: MealStorageDTO;
+      };
       newMealFeedback: {
         isFit?: boolean;
       };

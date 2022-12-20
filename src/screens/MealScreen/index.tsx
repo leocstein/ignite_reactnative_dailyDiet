@@ -18,6 +18,7 @@ import {
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { MealStorageDTO } from "@storage/meal/MealStorageDTO";
 import { MealDelete } from "@storage/meal/mealDelete";
+import { Alert } from "react-native";
 
 export function MealScreen() {
   const navigation = useNavigation();
@@ -25,8 +26,16 @@ export function MealScreen() {
   const meal = route.params as MealStorageDTO;
 
   async function handleDeleteMeal(meal: MealStorageDTO) {
-    await MealDelete(meal);
-    navigation.navigate("home");
+    Alert.alert("Remover", "Deseja remover a refeição?", [
+      { text: "Não", style: "cancel" },
+      {
+        text: "Sim",
+        onPress: () => {
+          MealDelete(meal);
+          navigation.navigate("home");
+        },
+      },
+    ]);
   }
 
   function handleEditMeal() {

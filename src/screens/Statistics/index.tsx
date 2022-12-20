@@ -11,6 +11,7 @@ import { HeaderStatistics } from "@components/HeaderStatistics";
 import { MiniCard } from "@components/MiniCard";
 import { useEffect, useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
+import { CalculateBestSequence } from "@utils/CalculateBestSequence";
 
 type RouteParams = {
   route;
@@ -38,8 +39,32 @@ export function Statistics({ route }: RouteParams) {
     setOffDietMeals(offTheDiet.length);
   }
 
+  function CalculateBestSequence() {
+    let bestSequence = 0,
+      currentSequence = 0;
+
+    meals.map((meal) => {
+      if (meal.isFit === true) {
+        currentSequence++;
+      } else {
+        if (currentSequence > bestSequence) {
+          bestSequence = currentSequence;
+        }
+        currentSequence = 0;
+      }
+    });
+
+    if (currentSequence > bestSequence) {
+      bestSequence = currentSequence;
+    }
+
+    return bestSequence;
+  }
+
   useEffect(() => {
     LoadStatistics();
+    const sequence = CalculateBestSequence();
+    setBestSequel(sequence);
   }, [isFocused]);
 
   return (
